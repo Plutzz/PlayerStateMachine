@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerMovingState : PlayerState
 {
-    public override void Construct(PlayerMotor currentMotor)
+    public PlayerMovingState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions)
+    {
+    }
+
+    public override void Construct()
     {
         Debug.Log("Construct " + this);
-        motor = currentMotor;
-
-        playerInputActions = motor.playerInputActions;
         playerInputActions.Player.Enable();
     }
 
@@ -23,7 +24,7 @@ public class PlayerMovingState : PlayerState
     {
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
         {
-            motor.ChangeState(new PlayerIdleState());
+            stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
         }
     }
 

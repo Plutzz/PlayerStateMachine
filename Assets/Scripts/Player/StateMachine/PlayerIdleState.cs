@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerState
 {
-    protected Rigidbody rb;
-    public override void Construct(PlayerMotor currentMotor)
+    public PlayerIdleState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions)
+    {
+    }
+
+    public override void Construct()
     {
         Debug.Log("Construct " + this);
-        motor = currentMotor;
 
-        rb = motor.rb;
-        playerInputActions = motor.playerInputActions;
         playerInputActions.Player.Enable();
         
     }
@@ -28,7 +28,7 @@ public class PlayerIdleState : PlayerState
         // playerMotor.ChangeState
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero)
         {
-            motor.ChangeState(new PlayerMovingState());
+            stateMachine.ChangeState(new PlayerMovingState(stateMachine, playerInputActions));
         }
     }
     public override void FixedUpdateState()

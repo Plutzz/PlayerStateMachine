@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMotor : MonoBehaviour
+public class PlayerStateMachine : MonoBehaviour
 {
     private PlayerState currentState;
-    private PlayerState initialState = new PlayerIdleState();
-    public PlayerInputActions playerInputActions {  get; private set; }
+    public PlayerInputActions playerInputActions { get; private set; }
+    private PlayerState initialState;
 
 
     //[Header("Player Attributes")]
-    public Rigidbody rb { get; private set; }
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
         playerInputActions = new PlayerInputActions();
+        initialState = new PlayerIdleState(this, playerInputActions);
+
     }
     private void Start()
     {
         currentState = initialState;
-        currentState.Construct(this);
+        currentState.Construct();
     }
 
     private void Update()
@@ -37,6 +37,9 @@ public class PlayerMotor : MonoBehaviour
     {
         currentState.Destruct();
         currentState = newState;
-        currentState.Construct(this);
+        currentState.Construct();
     }
+
+    //Consider adding core functionalities here
+    // Ex: GroundedCheck
 }
