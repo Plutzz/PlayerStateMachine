@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Test : MonoBehaviour
 {
@@ -22,7 +21,6 @@ public class Test : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(playerInputActions.Player.Movement);
         Vector2 inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>();
         float speed = 50f;
         rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * speed, ForceMode.Force);

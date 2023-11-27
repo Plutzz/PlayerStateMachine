@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace StateMachines.Player
-{
-    public abstract class BaseState
+    public abstract class PlayerState
+
     {
         // Fields to be assigned during the Construct() methods
         protected PlayerMotor motor;
-
+        protected PlayerInputActions playerInputActions;
 
         /// <summary>
         /// Setup state, e.g. starting animations.
         /// Consider this the "Start" method of this state.
         /// </summary>
-        public abstract void Construct();
+        public abstract void Construct(PlayerMotor currentMotor);
 
         /// <summary>
         /// State-Cleanup.
@@ -27,11 +27,16 @@ namespace StateMachines.Player
         /// </summary>
         public abstract void UpdateState();
 
+        /// <summary>
+        /// This method is called once every physics frame while this state is active.
+        /// Consider this the "FixedUpdate" method of this state.
+        /// </summary>
+        public abstract void FixedUpdateState();
+
 
 
         //Consider adding core functionalities here
         // Ex: GroundedCheck
 
     }
-}
 
