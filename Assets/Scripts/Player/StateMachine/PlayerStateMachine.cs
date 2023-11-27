@@ -9,9 +9,11 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerState initialState;
     public PlayerInputActions playerInputActions { get; private set; }
 
+
     public Rigidbody rb { get; private set; }
     public Transform GroundCheck;
     public Vector3 GroundCheckSize;
+    [SerializeField] LayerMask groundLayer;
 
 
     #region Debug Variables
@@ -33,6 +35,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(GroundedCheck());
         currentState.UpdateState();
         CurrentStateText.text = "Current State: " + currentState.ToString();
     }
@@ -53,12 +56,12 @@ public class PlayerStateMachine : MonoBehaviour
     // Ex: GroundedCheck
     public bool GroundedCheck()
     {
-        return Physics.OverlapBox(GroundCheck.position, GroundCheckSize).Length > 0;
+        return Physics.OverlapBox(GroundCheck.position, GroundCheckSize, Quaternion.identity, groundLayer).Length > 0;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(GroundCheck.position, new Vector3(GroundCheckSize.x, 0.1f, GroundCheckSize.y));
+        Gizmos.DrawWireCube(GroundCheck.position, new Vector3(GroundCheckSize.x, GroundCheckSize.y, GroundCheckSize.z));
     }
 }

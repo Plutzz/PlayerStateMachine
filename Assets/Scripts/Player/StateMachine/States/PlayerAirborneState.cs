@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerAirborneState: PlayerState
 {
+    private Rigidbody rb;
     public PlayerAirborneState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions) { }
 
     public override void Construct()
     {
         playerInputActions.Player.Enable();
+        rb = stateMachine.rb;
     }
 
     public override void Destruct()
@@ -27,6 +29,9 @@ public class PlayerAirborneState: PlayerState
 
     public override void CheckTransitions()
     {
-        
+        if(stateMachine.GroundedCheck() && rb.velocity.y < 0)
+        {
+            stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
+        }
     }
 }

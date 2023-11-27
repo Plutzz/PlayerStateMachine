@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovingState : PlayerState
 {
@@ -13,12 +14,15 @@ public class PlayerMovingState : PlayerState
     public override void Construct()
     {
         playerInputActions.Player.Enable();
+        playerInputActions.Player.Jump.performed += Jump;
+
         rb = stateMachine.rb;
     }
 
     public override void Destruct()
     {
         playerInputActions.Player.Disable();
+        playerInputActions.Player.Jump.performed -= Jump;
     }
 
     public override void UpdateState()
@@ -38,11 +42,12 @@ public class PlayerMovingState : PlayerState
         // PlayerIdleState Transition
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
         {
-            rb.velocity = Vector3.zero;
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
             stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
         }
     }
 
+    //Helper Methods
     private void GetInput()
     {
         inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>();
@@ -52,7 +57,14 @@ public class PlayerMovingState : PlayerState
     {
         float speed = 10f;
         rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
-        //rb.AddForce(new Vector3(inputVector.x * speed, 0, inputVector.y * speed), ForceMode.Force);
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
+    }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        //Debug.Log(context);
+        //Debug.Log("Jump!" + context.phase);
+        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
     }
 }

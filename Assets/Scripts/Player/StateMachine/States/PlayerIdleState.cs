@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerIdleState : PlayerState
 {
+    private Rigidbody rb;
     public PlayerIdleState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions) { }
 
     public override void Construct()
     {
         playerInputActions.Player.Enable();
+        playerInputActions.Player.Jump.performed += Jump;
+
+        rb = stateMachine.rb;
     }
 
     public override void Destruct()
     {
         playerInputActions.Player.Disable();
+        playerInputActions.Player.Jump.performed -= Jump;
     }
 
     public override void UpdateState()
@@ -28,9 +35,15 @@ public class PlayerIdleState : PlayerState
     public override void CheckTransitions()
     {
         // PlayerMovingState transition
-        if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero)
+        if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero || playerInputActions.Player.Jump.ReadValue<float>() == 1)
         {
             stateMachine.ChangeState(new PlayerMovingState(stateMachine, playerInputActions));
         }
+    }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
     }
 }
