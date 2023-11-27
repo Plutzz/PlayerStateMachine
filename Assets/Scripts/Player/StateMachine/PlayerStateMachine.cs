@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -7,9 +8,12 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerState currentState;
     public PlayerInputActions playerInputActions { get; private set; }
     private PlayerState initialState;
-
-
     public Rigidbody rb { get; private set; }
+
+
+    #region Debug Variables
+    public TextMeshProUGUI CurrentStateText;
+    #endregion
 
     private void Awake()
     {
@@ -26,6 +30,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void Update()
     {
         currentState.UpdateState();
+        CurrentStateText.text = "Current State: " + currentState.ToString();
     }
 
     private void FixedUpdate()

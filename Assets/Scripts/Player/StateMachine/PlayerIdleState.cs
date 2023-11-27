@@ -8,13 +8,11 @@ public class PlayerIdleState : PlayerState
 
     public override void Construct()
     {
-        Debug.Log("Construct " + this);
         playerInputActions.Player.Enable();
     }
 
     public override void Destruct()
     {
-        Debug.Log("Destruct " + this);
         playerInputActions.Player.Disable();
     }
 
