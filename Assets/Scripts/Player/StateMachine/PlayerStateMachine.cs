@@ -6,9 +6,12 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
     private PlayerState currentState;
-    public PlayerInputActions playerInputActions { get; private set; }
     private PlayerState initialState;
+    public PlayerInputActions playerInputActions { get; private set; }
+
     public Rigidbody rb { get; private set; }
+    public Transform GroundCheck;
+    public Vector3 GroundCheckSize;
 
 
     #region Debug Variables
@@ -19,6 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         playerInputActions = new PlayerInputActions();
         initialState = new PlayerIdleState(this, playerInputActions);
+        rb = GetComponent<Rigidbody>();
 
     }
     private void Start()
@@ -47,4 +51,14 @@ public class PlayerStateMachine : MonoBehaviour
 
     //Consider adding core functionalities here
     // Ex: GroundedCheck
+    public bool GroundedCheck()
+    {
+        return Physics.OverlapBox(GroundCheck.position, GroundCheckSize).Length > 0;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(GroundCheck.position, new Vector3(GroundCheckSize.x, 0.1f, GroundCheckSize.y));
+    }
 }
