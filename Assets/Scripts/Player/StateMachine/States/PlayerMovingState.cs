@@ -24,15 +24,13 @@ public class PlayerMovingState : PlayerState
     public override void UpdateState()
     {
         CheckTransitions();
-
+        Move();
         GetInput();
     }
 
     public override void FixedUpdateState()
     {
-        float speed = 10f;
-        rb.velocity = new Vector3(inputVector.x, 0, inputVector.y) * speed;
-        Debug.Log(rb.velocity);
+       
     }
 
     public override void CheckTransitions()
@@ -48,5 +46,13 @@ public class PlayerMovingState : PlayerState
     private void GetInput()
     {
         inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>();
+    }
+
+    private void Move()
+    {
+        float speed = 10f;
+        rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
+        //rb.AddForce(new Vector3(inputVector.x * speed, 0, inputVector.y * speed), ForceMode.Force);
+        Debug.Log(rb.velocity);
     }
 }
