@@ -56,6 +56,14 @@ public class PlayerState
     {
 
     }
+    /// <summary>
+    /// This method contains checks for all transitions from the current state.
+    /// To be called in the UpdateState() or FixedUpdateState() methods.
+    /// </summary>
+    public virtual void CheckTransitions()
+    {
+
+    }
 
 
 

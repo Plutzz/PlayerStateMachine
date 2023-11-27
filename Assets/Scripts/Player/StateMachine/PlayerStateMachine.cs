@@ -9,7 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerState initialState;
 
 
-    //[Header("Player Attributes")]
+    public Rigidbody rb { get; private set; }
 
     private void Awake()
     {
