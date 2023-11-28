@@ -40,6 +40,10 @@ public class PlayerIdleState : PlayerState
         {
             stateMachine.ChangeState(new PlayerMovingState(stateMachine, playerInputActions));
         }
+        if (rb.velocity.y != 0)
+        {
+            stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
+        }
     }
 
     private void Jump(InputAction.CallbackContext context)

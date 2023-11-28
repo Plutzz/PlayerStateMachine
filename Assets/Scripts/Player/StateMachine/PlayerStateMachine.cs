@@ -18,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     #region Debug Variables
     public TextMeshProUGUI CurrentStateText;
+    public TextMeshProUGUI GroundedText;
     #endregion
 
     private void Awake()
@@ -38,6 +39,8 @@ public class PlayerStateMachine : MonoBehaviour
         //Debug.Log(rb.velocity);
         currentState.UpdateState();
         CurrentStateText.text = "Current State: " + currentState.ToString();
+        GroundedText.text = "Grounded: " + GroundedCheck();
+
     }
 
     private void FixedUpdate()
@@ -56,12 +59,13 @@ public class PlayerStateMachine : MonoBehaviour
     // Ex: GroundedCheck
     public bool GroundedCheck()
     {
-        return Physics.OverlapBox(GroundCheck.position, GroundCheckSize, Quaternion.identity, groundLayer).Length > 0;
+        Debug.Log(Physics.OverlapBox(GroundCheck.position, GroundCheckSize * 0.5f, Quaternion.identity, groundLayer).Length);
+        return Physics.OverlapBox(GroundCheck.position, GroundCheckSize * 0.5f, Quaternion.identity, groundLayer).Length > 0;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(GroundCheck.position, new Vector3(GroundCheckSize.x, GroundCheckSize.y, GroundCheckSize.z));
+        Gizmos.DrawWireCube(GroundCheck.position, GroundCheckSize);
     }
 }

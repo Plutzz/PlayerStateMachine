@@ -31,7 +31,6 @@ public class PlayerMovingState : PlayerState
         CheckTransitions();
         GetInput();
         Move();
-        
     }
 
     public override void FixedUpdateState()
@@ -45,6 +44,10 @@ public class PlayerMovingState : PlayerState
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
         {
             stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
+        }
+        if (rb.velocity.y != 0)
+        {
+            stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
         }
     }
 
@@ -67,6 +70,5 @@ public class PlayerMovingState : PlayerState
         //Debug.Log(context);
         //Debug.Log("Jump!" + context.phase);
         rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-        stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
     }
 }
