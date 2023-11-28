@@ -35,7 +35,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GroundedCheck());
+        //Debug.Log(rb.velocity);
         currentState.UpdateState();
         CurrentStateText.text = "Current State: " + currentState.ToString();
     }

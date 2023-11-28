@@ -23,13 +23,15 @@ public class PlayerMovingState : PlayerState
     {
         playerInputActions.Player.Disable();
         playerInputActions.Player.Jump.performed -= Jump;
+        
     }
 
     public override void UpdateState()
     {
         CheckTransitions();
-        Move();
         GetInput();
+        Move();
+        
     }
 
     public override void FixedUpdateState()
@@ -42,7 +44,6 @@ public class PlayerMovingState : PlayerState
         // PlayerIdleState Transition
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
         {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
             stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
         }
     }
@@ -55,6 +56,7 @@ public class PlayerMovingState : PlayerState
 
     private void Move()
     {
+        Debug.Log(inputVector);
         float speed = 10f;
         rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
         //Debug.Log(rb.velocity);

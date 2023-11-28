@@ -14,6 +14,7 @@ public class PlayerIdleState : PlayerState
         playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump;
 
+        
         rb = stateMachine.rb;
     }
 
@@ -29,13 +30,13 @@ public class PlayerIdleState : PlayerState
     }
     public override void FixedUpdateState()
     {
-
+        //rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 
     public override void CheckTransitions()
     {
         // PlayerMovingState transition
-        if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero || playerInputActions.Player.Jump.ReadValue<float>() == 1)
+        if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero)
         {
             stateMachine.ChangeState(new PlayerMovingState(stateMachine, playerInputActions));
         }
