@@ -7,6 +7,10 @@ public class PlayerStateMachine : MonoBehaviour
 {
     private PlayerState currentState;
     private PlayerState initialState;
+
+    public PlayerIdleState IdleState;
+    public PlayerMovingState MovingState;
+    public PlayerAirborneState AirborneState;
     public PlayerInputActions playerInputActions { get; private set; }
 
 
@@ -24,7 +28,12 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
-        initialState = new PlayerIdleState(this, playerInputActions);
+
+        IdleState = new PlayerIdleState(this, playerInputActions);
+        MovingState = new PlayerMovingState(this, playerInputActions);
+        AirborneState = new PlayerAirborneState(this, playerInputActions);
+
+        initialState = IdleState;
         rb = GetComponent<Rigidbody>();
 
     }

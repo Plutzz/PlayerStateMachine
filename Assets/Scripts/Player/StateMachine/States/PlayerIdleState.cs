@@ -38,11 +38,11 @@ public class PlayerIdleState : PlayerState
         // PlayerMovingState transition
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero)
         {
-            stateMachine.ChangeState(new PlayerMovingState(stateMachine, playerInputActions));
+            stateMachine.ChangeState(stateMachine.MovingState);
         }
         if (rb.velocity.y != 0)
         {
-            stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
+            stateMachine.ChangeState(stateMachine.AirborneState);
         }
     }
 
