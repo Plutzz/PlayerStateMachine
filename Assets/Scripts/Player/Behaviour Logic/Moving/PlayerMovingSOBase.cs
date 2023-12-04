@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovingSOBase : ScriptableObject
+public class PlayerMovingSOBase : PlayerStateSOBase
 {
     protected PlayerStateMachine stateMachine;
     protected Rigidbody rb;
@@ -18,13 +18,7 @@ public class PlayerMovingSOBase : ScriptableObject
         this.playerInputActions = playerInputActions;
     }
 
-    public virtual void DoEnterLogic() { }
-    public virtual void DoExitLogic() { ResetValues(); }
-    public virtual void DoUpdateState() { CheckTransitions(); }
-    public virtual void DoFixedUpdateState() { }
-    public virtual void ResetValues() { }
-
-    public virtual void CheckTransitions()
+    public override void CheckTransitions()
     {
         // Moving => Idle
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)

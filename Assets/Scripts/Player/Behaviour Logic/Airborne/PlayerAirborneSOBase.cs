@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirborneSOBase : ScriptableObject
+public class PlayerAirborneSOBase : PlayerStateSOBase
 {
     protected PlayerStateMachine stateMachine;
     protected Rigidbody rb;
@@ -18,13 +18,7 @@ public class PlayerAirborneSOBase : ScriptableObject
         this.playerInputActions = playerInputActions;
     }
 
-    public virtual void DoEnterLogic() { }
-    public virtual void DoExitLogic() { ResetValues(); }
-    public virtual void DoUpdateState() { CheckTransitions(); }
-    public virtual void DoFixedUpdateState() { }
-    public virtual void ResetValues() { }
-
-    public virtual void CheckTransitions()
+    public override void CheckTransitions()
     {
         //Airborne => Moving
         if (stateMachine.GroundedCheck() && playerInputActions.Player.Jump.ReadValue<float>() == 0)
