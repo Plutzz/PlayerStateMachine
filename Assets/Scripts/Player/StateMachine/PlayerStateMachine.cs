@@ -5,20 +5,38 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    private PlayerState currentState;
-    private PlayerState initialState;
+    #region States Variables
 
+    private PlayerState currentState; // State that player is currently in
+    private PlayerState initialState; // State that player starts as
+
+    // References to all player states
     public PlayerIdleState IdleState;
     public PlayerMovingState MovingState;
     public PlayerAirborneState AirborneState;
+
+    #endregion
+
+    #region ScriptableObject Variables
+
+    [SerializeField] private PlayerIdleSOBase playerIdleBase;
+    [SerializeField] private PlayerMovingSOBase playerMovingBase;
+    [SerializeField] private PlayerAirborneSOBase playerAirborneBase;
+
+    public PlayerIdleSOBase PlayerIdleBaseInstance { get; private set; }
+    public PlayerMovingSOBase PlayerMovingBaseInstance { get; private set; }
+    public PlayerAirborneSOBase PlayerAirborneBaseInstance { get; private set; }
+
+    #endregion
+
+    #region Player Variables
     public PlayerInputActions playerInputActions { get; private set; }
-
-
     public Rigidbody rb { get; private set; }
     public Transform GroundCheck;
     public Vector3 GroundCheckSize;
     [SerializeField] LayerMask groundLayer;
 
+    #endregion
 
     #region Debug Variables
     public TextMeshProUGUI CurrentStateText;
@@ -27,20 +45,28 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-
-        IdleState = new PlayerIdleState(this, playerInputActions);
-        MovingState = new PlayerMovingState(this, playerInputActions);
-        AirborneState = new PlayerAirborneState(this, playerInputActions);
-
-        initialState = IdleState;
         rb = GetComponent<Rigidbody>();
 
+        PlayerIdleBaseInstance = Instantiate(playerIdleBase);
+        PlayerMovingBaseInstance = Instantiate(playerMovingBase);
+        PlayerAirborneBaseInstance = Instantiate(playerAirborneBase);
+
+        playerInputActions = new PlayerInputActions();
+
+        IdleState = new PlayerIdleState(this);
+        MovingState = new PlayerMovingState(this);
+        AirborneState = new PlayerAirborneState(this);
+
+        PlayerIdleBaseInstance.Initialize(gameObject, this, playerInputActions);
+        PlayerMovingBaseInstance.Initialize(gameObject, this, playerInputActions);
+        PlayerAirborneBaseInstance.Initialize(gameObject, this, playerInputActions);
+
+        initialState = IdleState;
     }
     private void Start()
     {
         currentState = initialState;
-        currentState.Construct();
+        currentState.EnterLogic();
     }
 
     private void Update()
@@ -59,9 +85,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
-        currentState.Destruct();
+        currentState.ExitLogic();
         currentState = newState;
-        currentState.Construct();
+        currentState.EnterLogic();
     }
 
     //Consider adding core functionalities here

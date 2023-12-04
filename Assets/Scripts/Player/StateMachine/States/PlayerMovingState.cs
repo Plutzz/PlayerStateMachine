@@ -5,70 +5,28 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovingState : PlayerState
 {
-    private Rigidbody rb;
-    private Vector2 inputVector;
-
     //Constructor
-    public PlayerMovingState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions) { }
+    public PlayerMovingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Construct()
+    public override void EnterLogic()
     {
-        playerInputActions.Player.Enable();
-        playerInputActions.Player.Jump.performed += Jump;
-
-        rb = stateMachine.rb;
+        stateMachine.PlayerMovingBaseInstance.DoEnterLogic();
     }
 
-    public override void Destruct()
+    public override void ExitLogic()
     {
-        playerInputActions.Player.Disable();
-        playerInputActions.Player.Jump.performed -= Jump;
-        
+        stateMachine.PlayerMovingBaseInstance.DoExitLogic();
     }
 
     public override void UpdateState()
     {
-        CheckTransitions();
-        GetInput();
-        Move();
+        stateMachine.PlayerMovingBaseInstance.DoUpdateState();
     }
 
     public override void FixedUpdateState()
     {
-       
+        stateMachine.PlayerMovingBaseInstance.DoFixedUpdateState();
     }
 
-    public override void CheckTransitions()
-    {
-        // PlayerIdleState Transition
-        if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
-        {
-            stateMachine.ChangeState(new PlayerIdleState(stateMachine, playerInputActions));
-        }
-        if (rb.velocity.y != 0)
-        {
-            stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
-        }
-    }
 
-    //Helper Methods
-    private void GetInput()
-    {
-        inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>();
-    }
-
-    private void Move()
-    {
-        Debug.Log(inputVector);
-        float speed = 10f;
-        rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
-        //Debug.Log(rb.velocity);
-    }
-
-    private void Jump(InputAction.CallbackContext context)
-    {
-        //Debug.Log(context);
-        //Debug.Log("Jump!" + context.phase);
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-    }
 }

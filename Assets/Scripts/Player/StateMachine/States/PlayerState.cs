@@ -14,11 +14,10 @@ public class PlayerState
     /// to the next state.
     /// </summary>
     /// <param name="stateMachine"></param>
-    /// <param name="playerInputActions"></param>
-    public PlayerState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions)
+    /// 
+    public PlayerState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        this.playerInputActions = playerInputActions;
     }
 
 
@@ -26,7 +25,7 @@ public class PlayerState
     /// Setup state, e.g. starting animations.
     /// Consider this the "Start" method of this state.
     /// </summary>
-    public virtual void Construct()
+    public virtual void EnterLogic()
     {
 
     }
@@ -34,7 +33,7 @@ public class PlayerState
     /// <summary>
     /// State-Cleanup.
     /// </summary>
-    public virtual void Destruct()
+    public virtual void ExitLogic()
     {
 
     }

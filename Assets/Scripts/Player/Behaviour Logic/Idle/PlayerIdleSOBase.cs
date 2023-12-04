@@ -12,15 +12,15 @@ public class PlayerIdleSOBase : ScriptableObject
     public virtual void Initialize(GameObject gameObject, PlayerStateMachine stateMachine, PlayerInputActions playerInputActions)
     {
         this.gameObject = gameObject;
-        rb = gameObject.GetComponent<Rigidbody>();
         this.stateMachine = stateMachine;
+        rb = stateMachine.rb;
         this.playerInputActions = playerInputActions;
     }
 
-    public virtual void DoConstruct() { }
-    public virtual void DoDeconstruct() { ResetValues(); }
+    public virtual void DoEnterLogic() { }
+    public virtual void DoExitLogic() { ResetValues(); }
     public virtual void DoUpdateState() { CheckTransitions(); }
-    public virtual void DoPhysicsLogic() { }
+    public virtual void DoFixedUpdateState() { }
     public virtual void ResetValues() { }
 
     public virtual void CheckTransitions()

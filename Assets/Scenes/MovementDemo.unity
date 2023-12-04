@@ -2179,6 +2179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c55bc5a5e90ef44a334597762bc4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIdleBase: {fileID: 11400000, guid: e556b29af0cea6d43bd28a4a2c624ab8, type: 2}
+  playerMovingBase: {fileID: 11400000, guid: 91ff5dc5f6311e44c87dcd928f4a8adf, type: 2}
+  playerAirborneBase: {fileID: 11400000, guid: aab0e1adc8881ac4eaafb1070fefae85, type: 2}
   GroundCheck: {fileID: 369908474}
   GroundCheckSize: {x: 0.95, y: 0.01, z: 0.95}
   groundLayer:
@@ -2383,7 +2386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914272241}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14521314, y: 1.6271901e-15, z: -2.6894993e-16, w: 0.98940045}
+  m_LocalRotation: {x: 0.14521313, y: -0.000000032966824, z: 0.000000004838501, w: 0.98940045}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -6,49 +6,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerIdleState : PlayerState
 {
-    private Rigidbody rb;
-    public PlayerIdleState(PlayerStateMachine stateMachine, PlayerInputActions playerInputActions) : base(stateMachine, playerInputActions) { }
+    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Construct()
+    public override void EnterLogic()
     {
-        playerInputActions.Player.Enable();
-        playerInputActions.Player.Jump.performed += Jump;
-
-        
-        rb = stateMachine.rb;
+        stateMachine.PlayerIdleBaseInstance.DoEnterLogic();
     }
 
-    public override void Destruct()
+    public override void ExitLogic()
     {
-        playerInputActions.Player.Disable();
-        playerInputActions.Player.Jump.performed -= Jump;
+        stateMachine.PlayerIdleBaseInstance.DoExitLogic();
     }
 
     public override void UpdateState()
     {
-        CheckTransitions();
+        stateMachine.PlayerIdleBaseInstance.DoUpdateState();
     }
     public override void FixedUpdateState()
     {
-        //rb.velocity = new Vector3(0, rb.velocity.y, 0);
-    }
-
-    public override void CheckTransitions()
-    {
-        // PlayerMovingState transition
-        if (playerInputActions.Player.Movement.ReadValue<Vector2>() != Vector2.zero)
-        {
-            stateMachine.ChangeState(stateMachine.MovingState);
-        }
-        if (rb.velocity.y != 0)
-        {
-            stateMachine.ChangeState(stateMachine.AirborneState);
-        }
-    }
-
-    private void Jump(InputAction.CallbackContext context)
-    {
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-        stateMachine.ChangeState(new PlayerAirborneState(stateMachine, playerInputActions));
+        stateMachine.PlayerIdleBaseInstance.DoFixedUpdateState();
     }
 }
