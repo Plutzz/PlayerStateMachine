@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpHeight = 5f;
+    [SerializeField] private CinemachineFreeLook freeLookCamera;
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
@@ -53,7 +55,8 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
 
     private void Move()
     {
-        Debug.Log(inputVector);
+        float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg;
+        gameObject.transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
         rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
         //Debug.Log(rb.velocity);
     }

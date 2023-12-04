@@ -7,7 +7,6 @@ public class PlayerState
 {
     // Fields to be assigned during the Construct() methods
     protected PlayerStateMachine stateMachine;
-    protected PlayerInputActions playerInputActions;
 
     /// <summary>
     /// Constructor used to pass references of the stateMachine and playerInputActions

@@ -26,7 +26,7 @@ public class PlayerMovingSOBase : PlayerStateSOBase
             stateMachine.ChangeState(stateMachine.IdleState);
         }
         // Moving => Airborne
-        else if (rb.velocity.y != 0)
+        else if (!stateMachine.GroundedCheck())
         {
             stateMachine.ChangeState(stateMachine.AirborneState);
         }

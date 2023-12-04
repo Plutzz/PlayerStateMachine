@@ -85,6 +85,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
+        Debug.Log("Changing to: " + newState);
         currentState.ExitLogic();
         currentState = newState;
         currentState.EnterLogic();
@@ -94,7 +95,6 @@ public class PlayerStateMachine : MonoBehaviour
     // Ex: GroundedCheck
     public bool GroundedCheck()
     {
-        Debug.Log(Physics.OverlapBox(GroundCheck.position, GroundCheckSize * 0.5f, Quaternion.identity, groundLayer).Length);
         return Physics.OverlapBox(GroundCheck.position, GroundCheckSize * 0.5f, Quaternion.identity, groundLayer).Length > 0;
     }
 
