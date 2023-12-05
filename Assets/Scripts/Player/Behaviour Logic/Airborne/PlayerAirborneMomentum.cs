@@ -52,7 +52,6 @@ public class PlayerAirborneMomentum : PlayerAirborneSOBase
         if(inputVector == Vector2.zero) { return; }
 
         float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-        Debug.Log("Target Angle: " + targetAngle);
         float angle = Mathf.SmoothDampAngle(gameObject.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
         gameObject.transform.rotation = Quaternion.Euler(0f, angle, 0f);
         float speed = this.speed;
