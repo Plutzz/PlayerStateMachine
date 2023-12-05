@@ -7,6 +7,7 @@ public class PlayerAirborneMomentum : PlayerAirborneSOBase
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private float turnSmoothTime = 0.1f;
+    [SerializeField] private float drag = 0f;
     private Transform cam;
 
     private float turnSmoothVelocity;
@@ -18,7 +19,7 @@ public class PlayerAirborneMomentum : PlayerAirborneSOBase
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
-        rb.drag = 0f;
+        rb.drag = drag;
     }
 
     public override void DoExitLogic()
