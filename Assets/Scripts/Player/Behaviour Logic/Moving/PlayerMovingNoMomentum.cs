@@ -21,14 +21,13 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
-        playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void DoExitLogic()
     {
         base.DoExitLogic();
-        playerInputActions.Player.Disable();
         playerInputActions.Player.Jump.performed -= Jump;
     }
 
@@ -68,6 +67,12 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
         float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
         float angle = Mathf.SmoothDampAngle(gameObject.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
         gameObject.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        float speed = this.speed;
+
+        if(playerInputActions.Player.Sprint.ReadValue<float>() == 1)
+        {
+            speed = speed * 2;
+        }
 
         Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);

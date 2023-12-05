@@ -10,14 +10,12 @@ public class PlayerIdleDefault : PlayerIdleSOBase
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
-        playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump;
     }
 
     public override void DoExitLogic()
     {
         base.DoExitLogic();
-        playerInputActions.Player.Disable();
         playerInputActions.Player.Jump.performed -= Jump;
     }
 

@@ -8,13 +8,11 @@ public class PlayerAirborneFullControl : PlayerAirborneSOBase
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
-        playerInputActions.Player.Enable();
     }
 
     public override void DoExitLogic()
     {
         base.DoExitLogic();
-        playerInputActions.Player.Disable();
     }
 
     public override void DoFixedUpdateState()

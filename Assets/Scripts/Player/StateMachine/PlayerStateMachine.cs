@@ -53,6 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerAirborneBaseInstance = Instantiate(playerAirborneBase);
 
         playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
 
         IdleState = new PlayerIdleState(this);
         MovingState = new PlayerMovingState(this);
