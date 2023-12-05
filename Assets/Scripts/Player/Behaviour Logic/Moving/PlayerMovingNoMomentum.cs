@@ -1,4 +1,4 @@
-using Cinemachine;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,15 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpHeight = 5f;
-    [SerializeField] private CinemachineFreeLook freeLookCamera;
+    [SerializeField] private float turnSmoothTime = 0.1f;
+    [SerializeField] private Transform cam;
+
+    private float turnSmoothVelocity;
+    public override void Initialize(GameObject gameObject, PlayerStateMachine stateMachine, PlayerInputActions playerInputActions)
+    {
+        base.Initialize(gameObject, stateMachine, playerInputActions);
+        cam = Camera.main.transform;
+    }
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
@@ -31,10 +39,12 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
 
     public override void DoUpdateState()
     {
-        base.DoUpdateState();
         GetInput();
         Move();
+        base.DoUpdateState();
     }
+
+
 
     public override void ResetValues()
     {
@@ -55,9 +65,11 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
 
     private void Move()
     {
-        float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg;
-        gameObject.transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-        rb.velocity = new Vector3(inputVector.x * speed, rb.velocity.y, inputVector.y * speed);
-        //Debug.Log(rb.velocity);
+        float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(gameObject.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        gameObject.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+        Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);
     }
 }

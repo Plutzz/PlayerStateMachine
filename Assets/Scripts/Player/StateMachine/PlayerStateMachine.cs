@@ -41,6 +41,7 @@ public class PlayerStateMachine : MonoBehaviour
     #region Debug Variables
     public TextMeshProUGUI CurrentStateText;
     public TextMeshProUGUI GroundedText;
+    public TextMeshProUGUI VelocityText;
     #endregion
 
     private void Awake()
@@ -75,6 +76,7 @@ public class PlayerStateMachine : MonoBehaviour
         currentState.UpdateState();
         CurrentStateText.text = "Current State: " + currentState.ToString();
         GroundedText.text = "Grounded: " + GroundedCheck();
+        VelocityText.text = "Velocity: " + rb.velocity.x + "," + rb.velocity.z;
 
     }
 

@@ -23,6 +23,7 @@ public class PlayerMovingSOBase : PlayerStateSOBase
         // Moving => Idle
         if (playerInputActions.Player.Movement.ReadValue<Vector2>() == Vector2.zero)
         {
+            stateMachine.rb.velocity = Vector3.zero;
             stateMachine.ChangeState(stateMachine.IdleState);
         }
         // Moving => Airborne

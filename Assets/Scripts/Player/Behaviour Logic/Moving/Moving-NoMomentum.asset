@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3cdad0aa104ed4891787e723461187, type: 3}
   m_Name: Moving-NoMomentum
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 5
   jumpHeight: 5
+  turnSmoothTime: 0.1
+  cam: {fileID: 0}
