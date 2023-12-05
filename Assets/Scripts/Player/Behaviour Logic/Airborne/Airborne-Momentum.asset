@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455b187ae0dbb8d4bbf583cce7c4d364, type: 3}
-  m_Name: Airborne-FullControl
+  m_Script: {fileID: 11500000, guid: 45c2b2231733df14aaf257d866946c82, type: 3}
+  m_Name: Airborne-Momentum
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 15
   turnSmoothTime: 0.1
-  cam: {fileID: 0}

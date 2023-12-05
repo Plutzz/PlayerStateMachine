@@ -10,7 +10,7 @@ public class PlayerMovingNoMomentum : PlayerMovingSOBase
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpHeight = 5f;
     [SerializeField] private float turnSmoothTime = 0.1f;
-    [SerializeField] private Transform cam;
+    private Transform cam;
 
     private float turnSmoothVelocity;
     public override void Initialize(GameObject gameObject, PlayerStateMachine stateMachine, PlayerInputActions playerInputActions)

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Airborne-FullControl", menuName = "Player Logic/Airborne Logic/Full Control")]
-public class PlayerAirborneFullControl : PlayerAirborneSOBase
+[CreateAssetMenu(fileName = "Airborne-Momentum", menuName = "Player Logic/Airborne Logic/Momentum")]
+public class PlayerAirborneMomentum : PlayerAirborneSOBase
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private float turnSmoothTime = 0.1f;
@@ -18,6 +18,7 @@ public class PlayerAirborneFullControl : PlayerAirborneSOBase
     public override void DoEnterLogic()
     {
         base.DoEnterLogic();
+        rb.drag = 0f;
     }
 
     public override void DoExitLogic()
@@ -28,19 +29,18 @@ public class PlayerAirborneFullControl : PlayerAirborneSOBase
     public override void DoFixedUpdateState()
     {
         base.DoFixedUpdateState();
+        Move();
     }
 
     public override void DoUpdateState()
     {
         GetInput();
-        Move();
         base.DoUpdateState();
     }
 
     public override void ResetValues()
     {
         base.ResetValues();
-        rb.velocity = Vector3.zero;
     }
 
     private void GetInput()
@@ -49,13 +49,10 @@ public class PlayerAirborneFullControl : PlayerAirborneSOBase
     }
     private void Move()
     {
-        if (inputVector == Vector2.zero)
-        {
-            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-            return;
-        }
+        if(inputVector == Vector2.zero) { return; }
 
         float targetAngle = Mathf.Atan2(inputVector.x, inputVector.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+        Debug.Log("Target Angle: " + targetAngle);
         float angle = Mathf.SmoothDampAngle(gameObject.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
         gameObject.transform.rotation = Quaternion.Euler(0f, angle, 0f);
         float speed = this.speed;
@@ -66,7 +63,6 @@ public class PlayerAirborneFullControl : PlayerAirborneSOBase
         }
 
         Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-        rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);
+        rb.AddForce(moveDir.normalized * speed, ForceMode.Force);
     }
 }
-

@@ -21,7 +21,7 @@ public class PlayerAirborneSOBase : PlayerStateSOBase
     public override void CheckTransitions()
     {
         //Airborne => Moving
-        if (stateMachine.GroundedCheck() && playerInputActions.Player.Jump.ReadValue<float>() == 0)
+        if (stateMachine.GroundedCheck())
         {
             stateMachine.ChangeState(stateMachine.MovingState);
         }

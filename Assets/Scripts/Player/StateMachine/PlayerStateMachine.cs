@@ -42,6 +42,7 @@ public class PlayerStateMachine : MonoBehaviour
     public TextMeshProUGUI CurrentStateText;
     public TextMeshProUGUI GroundedText;
     public TextMeshProUGUI VelocityText;
+    public TextMeshProUGUI SpeedText;
     #endregion
 
     private void Awake()
@@ -78,6 +79,7 @@ public class PlayerStateMachine : MonoBehaviour
         CurrentStateText.text = "Current State: " + currentState.ToString();
         GroundedText.text = "Grounded: " + GroundedCheck();
         VelocityText.text = "Velocity: " + rb.velocity.x + "," + rb.velocity.z;
+        SpeedText.text = "Speed: " + rb.velocity.magnitude;
 
     }
 
@@ -88,7 +90,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
-        Debug.Log("Changing to: " + newState);
+        //Debug.Log("Changing to: " + newState);
         currentState.ExitLogic();
         currentState = newState;
         currentState.EnterLogic();
@@ -104,6 +106,6 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(GroundCheck.position, GroundCheckSize);
+        Gizmos.DrawWireCube(GroundCheck.transform.position, GroundCheckSize);
     }
 }
